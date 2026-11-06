@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2027 升小一｜課程與活動報名</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --card: #ffffff;
+    --ink: #1f2a37;
+    --muted: #5b6675;
+    --line: #e3dfd6;
+    --brand: #1d4e89;
+    --brand-soft: #e6eef8;
+    --accent: #e07a3f;
+    --ok: #2e7d4f;
+    --warn: #b7791f;
+    --warn-soft: #fdf3e1;
+    --bad: #b42318;
+    --bad-soft: #fdecea;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Noto Sans TC", system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+    font-size: 16px; line-height: 1.6;
+    padding-bottom: 96px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+
+  header { background: var(--brand); color: #fff; padding: 32px 0 28px; }
+  header .school { font-size: 14px; opacity: .85; letter-spacing: .05em; }
+  header h1 { margin: 4px 0 8px; font-size: 26px; line-height: 1.3; }
+  header p { margin: 0; opacity: .92; font-size: 15px; }
+
+  .demo { background: var(--warn-soft); color: #7a4d0b; border: 1px solid #f1d49b; border-radius: 10px; padding: 10px 14px; margin: 16px 0 0; font-size: 14px; }
+
+  section.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; margin: 16px 0; }
+  .step { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; }
+  .step .num { width: 28px; height: 28px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 14px; flex: none; }
+  .step h2 { margin: 0; font-size: 19px; }
+  .hint { color: var(--muted); font-size: 14px; margin: -6px 0 14px; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; }
+  .full { grid-column: 1 / -1; }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+  .field label.lbl { display: block; font-weight: 500; font-size: 15px; margin-bottom: 4px; }
+  .req { color: var(--bad); margin-left: 2px; }
+  input[type=text], input[type=tel], input[type=email], textarea, select {
+    width: 100%; font: inherit; padding: 10px 12px; border: 1px solid #cfcac0; border-radius: 10px; background: #fff; color: var(--ink);
+  }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--brand); outline-offset: 1px; border-color: var(--brand); }
+  .field .err { color: var(--bad); font-size: 13px; margin-top: 4px; display: none; }
+  .field.invalid .err { display: block; }
+  .field.invalid input { border-color: var(--bad); }
+  .inline { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+  .inline label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips label { border: 1px solid #cfcac0; border-radius: 999px; padding: 4px 12px; font-size: 14px; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+  .chips input { margin: 0; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .campuses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .campus input { position: absolute; opacity: 0; }
+  .campus span { display: block; text-align: center; padding: 14px 8px; border: 2px solid var(--line); border-radius: 12px; font-weight: 700; font-size: 17px; cursor: pointer; transition: .15s; }
+  .campus input:checked + span { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
+  .campus input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+  .group { margin-top: 22px; }
+  .group:first-child { margin-top: 0; }
+  .group h3 { margin: 0; font-size: 17px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+  .group h3 .tag { white-space: nowrap; font-size: 12px; font-weight: 500; padding: 1px 8px; border-radius: 999px; background: var(--brand-soft); color: var(--brand); }
+  .group h3 .tag.free { background: #e7f4ec; color: var(--ok); }
+  .group .desc { color: var(--muted); font-size: 14px; margin: 2px 0 10px; }
+  .opts { display: grid; gap: 8px; }
+  .opt { border: 1px solid var(--line); border-radius: 12px; transition: .15s; }
+  .opt.on { border-color: var(--brand); background: #f7faff; }
+  .opt.full { background: #faf9f6; opacity: .7; }
+  .opt-main { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; cursor: pointer; }
+  .opt.full .opt-main { cursor: not-allowed; }
+  .opt-main input { margin-top: 5px; width: 18px; height: 18px; flex: none; accent-color: var(--brand); }
+  .opt-body { flex: 1; min-width: 0; }
+  .opt-title { font-weight: 500; }
+  .opt-meta { color: var(--muted); font-size: 14px; }
+  .badge { flex: none; font-size: 12px; padding: 2px 8px; border-radius: 999px; background: #e7f4ec; color: var(--ok); white-space: nowrap; margin-top: 2px; }
+  .badge.low { background: var(--warn-soft); color: var(--warn); }
+  .badge.none { background: var(--bad-soft); color: var(--bad); }
+  .opt-extra { border-top: 1px dashed var(--line); padding: 10px 14px 12px 44px; font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
+  .opt-extra select { width: auto; padding: 4px 8px; }
+  .empty { color: var(--muted); padding: 18px; text-align: center; border: 1px dashed var(--line); border-radius: 12px; }
+
+  .summary { list-style: none; margin: 0 0 12px; padding: 0; }
+  .summary li { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px; display: flex; justify-content: space-between; gap: 12px; }
+  .summary li .cat { color: var(--muted); font-size: 13px; }
+  .summary .price { white-space: nowrap; color: var(--muted); }
+  .fee { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; font-size: 18px; margin: 4px 0 4px; }
+  .fee-note { color: var(--muted); font-size: 13px; margin: 0 0 16px; }
+  .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; background: #f8f7f3; border-radius: 10px; padding: 12px; margin: 14px 0; }
+  .consent input { margin-top: 4px; width: 18px; height: 18px; flex: none; }
+
+  .btn { appearance: none; border: 0; border-radius: 12px; font: inherit; font-weight: 700; padding: 14px 20px; cursor: pointer; }
+  .btn-primary { background: var(--accent); color: #fff; width: 100%; font-size: 17px; }
+  .btn-primary:disabled { opacity: .6; cursor: wait; }
+  .btn-ghost { background: var(--brand); color: #fff; padding: 10px 16px; }
+  .alert { background: var(--bad-soft); color: var(--bad); border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; font-size: 14px; display: none; }
+  .alert.show { display: block; }
+  .alert ul { margin: 6px 0 0; padding-left: 20px; }
+
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -4px 16px rgba(0,0,0,.06); transform: translateY(110%); transition: transform .2s; z-index: 10; }
+  .bar.show { transform: none; }
+  .bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 10px; padding-bottom: 10px; }
+  .bar .count { font-size: 15px; }
+  .bar .count b { color: var(--brand); }
+
+  .done { text-align: center; padding: 32px 20px; }
+  .done .check { width: 56px; height: 56px; border-radius: 50%; background: #e7f4ec; color: var(--ok); display: grid; place-items: center; font-size: 30px; margin: 0 auto 12px; }
+  .done h2 { margin: 0 0 6px; }
+  .done .rid { font-size: 22px; font-weight: 700; color: var(--brand); letter-spacing: .04em; }
+  .done ul { text-align: left; display: inline-block; margin: 14px 0; padding-left: 20px; }
+  footer { color: var(--muted); font-size: 13px; text-align: center; padding: 8px 0 24px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="school" id="schoolName"></div>
+    <h1>2027 升小一｜課程與活動報名</h1>
+    <p>填一次資料，就能同時報名幼兒正音、免費體驗、幼兒英語與實體說明會。送出後學務老師會與您聯繫，確認名額與繳費方式。</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="demo" id="demoBanner" hidden>示範模式：尚未連接 Apps Script，場次與名額是範例資料，送出不會存檔。</div>
+
+  <form id="form" novalidate>
+    <section class="card">
+      <div class="step"><span class="num">1</span><h2>家長與孩子資料</h2></div>
+      <div class="grid">
+        <div class="field"><label class="lbl" for="parentName">家長姓名<span class="req">*</span></label><input type="text" id="parentName" autocomplete="name"><div class="err">請填寫家長姓名</div></div>
+        <div class="field"><label class="lbl" for="phone">手機<span class="req">*</span></label><input type="tel" id="phone" inputmode="numeric" placeholder="0912345678" autocomplete="tel"><div class="err">請填 09 開頭的 10 碼手機</div></div>
+        <div class="field"><label class="lbl" for="lineName">LINE 名稱</label><input type="text" id="lineName" placeholder="方便我們在官方 LINE 認出您"></div>
+        <div class="field"><label class="lbl" for="email">Email</label><input type="email" id="email" autocomplete="email"></div>
+        <div class="field"><label class="lbl" for="childName">孩子姓名<span class="req">*</span></label><input type="text" id="childName"><div class="err">請填寫孩子姓名</div></div>
+        <div class="field"><label class="lbl" for="kindergarten">目前就讀幼兒園</label><input type="text" id="kindergarten"></div>
+        <div class="field full"><label class="lbl" for="elementary">預計就讀國小</label><input type="text" id="elementary" placeholder="例如：龍華國小（尚未確定可留空）"></div>
+        <div class="field full">
+          <span class="lbl" style="display:block;font-weight:500">孩子的哥哥姊姊目前是否在本校就讀？</span>
+          <div class="inline">
+            <label><input type="radio" name="sibling" value="否" checked> 否</label>
+            <label><input type="radio" name="sibling" value="是"> 是</label>
+          </div>
+          <input type="text" id="siblingInfo" placeholder="哥哥姊姊的姓名與班級" style="margin-top:8px" hidden>
+        </div>
+        <div class="field full">
+          <span class="lbl" style="display:block;font-weight:500">從哪裡知道我們？（可複選）</span>
+          <div class="chips" id="sources"></div>
+        </div>
+      </div>
+      <div class="hp" aria-hidden="true"><label>網站<input type="text" id="website" tabindex="-1" autocomplete="off"></label></div>
+    </section>
+
+    <section class="card">
+      <div class="step"><span class="num">2</span><h2>選擇校區</h2></div>
+      <p class="hint">選好校區後，下面只會顯示該校區的場次。</p>
+      <div class="campuses" id="campuses"></div>
+      <div class="field" id="campusField"><div class="err">請選擇校區</div></div>
+    </section>
+
+    <section class="card">
+      <div class="step"><span class="num">3</span><h2>選擇想參加的活動</h2></div>
+      <p class="hint">可以一次勾選多項，不參加的類別留空即可。</p>
+      <div id="groups"><div class="empty">請先在上方選擇校區</div></div>
+    </section>
+
+    <section class="card" id="confirm">
+      <div class="step"><span class="num">4</span><h2>確認並送出</h2></div>
+      <ul class="summary" id="summary"></ul>
+      <div class="fee"><span>預估費用</span><span id="fee">NT$0</span></div>
+      <p class="fee-note" id="feeNote">實際費用以學務老師確認為準；免費體驗、試聽與說明會不收費。</p>
+      <div class="field"><label class="lbl" for="note">想告訴我們的事（選填）</label><textarea id="note" rows="3" placeholder="例如：方便聯絡的時段、孩子的英語程度"></textarea></div>
+      <label class="consent"><input type="checkbox" id="consent"><span>我同意學校使用以上資料，聯繫本次課程與活動的報名、繳費及上課相關事宜。</span></label>
+      <div class="alert" id="alert"></div>
+      <button type="submit" class="btn btn-primary" id="submit">送出報名</button>
+    </section>
+  </form>
+
+  <section class="card done" id="done" hidden>
+    <div class="check">✓</div>
+    <h2>報名已送出</h2>
+    <p>報名編號</p>
+    <div class="rid" id="rid"></div>
+    <ul id="doneItems"></ul>
+    <p id="doneFee"></p>
+    <p>學務老師會在 2 個工作天內與您聯繫，確認名額與繳費方式。<br>如有問題，歡迎透過官方 LINE 詢問。</p>
+    <button type="button" class="btn btn-ghost" id="again">再幫另一位孩子報名</button>
+  </section>
+
+  <footer>個人資料僅用於本次招生活動聯繫</footer>
+</main>
+
+<div class="bar" id="bar">
+  <div class="wrap">
+    <div class="count">已選 <b id="barCount">0</b> 項・預估 <b id="barFee">NT$0</b></div>
+    <button type="button" class="btn btn-ghost" id="toConfirm">前往確認</button>
+  </div>
+</div>
+
+<script>
+// ─── 設定：部署 Apps Script 後，把網頁應用程式網址貼在這裡 ───
+const API_URL = 'https://script.google.com/macros/s/AKfycbyI8-lQLM7HBsiC_Hb58B1RkzXm-Cj3VMtHznJfo8qTY1qiA0FBrvyNtP_1zgi76uIC/exec';
+const SCHOOL_NAME = '（學校名稱）';
+// ───────────────────────────────────────────────
+
+const COMBO_DISCOUNT = 2000;
+const CAMPUSES = ['龍華', '總校', '左新'];
+const SOURCES = ['紙本 DM', '校慶活動', '短影音／社群', '官方 LINE', '親友介紹', '哥哥姊姊在本校', '其他'];
+const GROUPS = [
+  { cat: '體驗', title: '週間免費正音體驗', tag: '免費', free: true, desc: '每場 1 小時，可複選多場。' },
+  { cat: '正音', title: '幼兒正音正式課', tag: '每期 NT$3,500', desc: '每期 7 堂，週六上課，每班上限 16 人。' },
+  { cat: '英語', title: 'Phonics Players 幼兒英語', tag: '每期 NT$2,400', desc: '每期 4 堂。可正式報名，或先免費試聽 1 堂（試聽堂次由學務聯繫安排）。與正音合報，每組折抵 NT$2,000。' },
+  { cat: '說明會', title: '升小一實體說明會', tag: '免費', free: true, desc: '請選擇出席人數。也可以先觀看線上說明會或預約一對一諮詢。' }
+];
+
+const $ = id => document.getElementById(id);
+const state = { sessions: [], campus: '', picked: {} }; // picked[id] = { mode, people }
+
+// 示範資料：與 Code.gs 的 SEED_SESSIONS 相同，正式上線後改由試算表「場次設定」提供
+const DEMO = [
+  ['EXP-0113-HZ','體驗','總校,左新','週間免費正音體驗（總校＋左新合辦）','2027/1/13（三）','18:30–19:30','Freya','ECC',0,16,'2027/1/13'],
+  ['EXP-0113-LH','體驗','龍華','週間免費正音體驗','2027/1/13（三）','18:30–19:30','Erma','1B',0,16,'2027/1/13'],
+  ['EXP-0217-LH','體驗','龍華','週間免費正音體驗','2027/2/17（三）','18:30–19:30','Erma','1B',0,16,'2027/2/17'],
+  ['EXP-0224-HZ','體驗','總校,左新','週間免費正音體驗（總校＋左新合辦）','2027/2/24（三）','18:30–19:30','Freya','ECC',0,16,'2027/2/24'],
+  ['EXP-0317-HQ','體驗','總校','週間免費正音體驗','2027/3/17（三）','18:30–19:30','Anne','ECC',0,16,'2027/3/17'],
+  ['EXP-0317-LH','體驗','龍華','週間免費正音體驗','2027/3/17（三）','18:30–19:30','Erma','1B',0,16,'2027/3/17'],
+  ['EXP-0326-ZX','體驗','左新','週間免費正音體驗','2027/3/26（五）','18:30–19:30','Vicky','2C',0,16,'2027/3/26'],
+  ['EXP-0414-HQ','體驗','總校','週間免費正音體驗','2027/4/14（三）','18:30–19:30','Anne','ECC',0,16,'2027/4/14'],
+  ['EXP-0414-LH','體驗','龍華','週間免費正音體驗','2027/4/14（三）','18:30–19:30','Erma','1B',0,16,'2027/4/14'],
+  ['EXP-0422-ZX','體驗','左新','週間免費正音體驗','2027/4/22（四）','18:30–19:30','Helen','2C',0,16,'2027/4/22'],
+  ['EXP-0512-HQ','體驗','總校','週間免費正音體驗','2027/5/12（三）','18:30–19:30','Freya','ECC',0,16,'2027/5/12'],
+  ['EXP-0512-LH','體驗','龍華','週間免費正音體驗','2027/5/12（三）','18:30–19:30','Erma','1B',0,16,'2027/5/12'],
+  ['EXP-0521-ZX','體驗','左新','週間免費正音體驗','2027/5/21（五）','18:30–19:30','Vicky','2C',0,16,'2027/5/21'],
+  ['ZY1-LH','正音','龍華','幼兒正音 第一期（7 堂）','1/16、2/13、2/20、3/6、3/13、3/20、3/27（週六）','10:30–12:00','Erma','待定',3500,16,'2027/1/16'],
+  ['ZY1-HZ','正音','總校,左新','幼兒正音 第一期（7 堂，總校＋左新合班）','1/16、2/13、2/20、3/6、3/13、3/20、3/27（週六）','10:30–12:00','Helen','暫定總校',3500,16,'2027/1/16'],
+  ['ZY2-LH','正音','龍華','幼兒正音 第二期（7 堂）','4/17、4/24、5/8、5/15、5/22、5/29、6/5（週六）','10:30–12:00','Erma','待定',3500,16,'2027/4/17'],
+  ['ZY2-HZ','正音','總校,左新','幼兒正音 第二期（7 堂，總校＋左新合班）','4/17、4/24、5/8、5/15、5/22、5/29、6/5（週六）','10:30–12:00','Helen','暫定總校',3500,16,'2027/4/17'],
+  ['EN1-HQ','英語','總校','Phonics Players 幼兒英語 第 1 期（4 堂）','2027 年 2 月起・日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
+  ['EN2-HQ','英語','總校','Phonics Players 幼兒英語 第 2 期（4 堂）','日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
+  ['EN3-HQ','英語','總校','Phonics Players 幼兒英語 第 3 期（4 堂）','日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
+  ['EN4-HQ','英語','總校','Phonics Players 幼兒英語 第 4 期（4 堂）','日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
+  ['EN1-LH','英語','龍華','Phonics Players 幼兒英語 第 1 期（4 堂）','2027 年 2 月起・日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
+  ['EN2-LH','英語','龍華','Phonics Players 幼兒英語 第 2 期（4 堂）','日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
+  ['EN3-LH','英語','龍華','Phonics Players 幼兒英語 第 3 期（4 堂）','日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
+  ['EN4-LH','英語','龍華','Phonics Players 幼兒英語 第 4 期（4 堂）','日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
+  ['EN1-ZX','英語','左新','Phonics Players 幼兒英語 第 1 期（4 堂）','2027 年 2 月起・日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
+  ['EN2-ZX','英語','左新','Phonics Players 幼兒英語 第 2 期（4 堂）','日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
+  ['EN3-ZX','英語','左新','Phonics Players 幼兒英語 第 3 期（4 堂）','日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
+  ['EN4-ZX','英語','左新','Phonics Players 幼兒英語 第 4 期（4 堂）','日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
+  ['SM-1219-LH','說明會','龍華','升小一實體說明會','2026/12/19（六）','10:00–12:00','','',0,60,'2026/12/19'],
+  ['SM-0313-LH','說明會','龍華','升小一實體說明會','2027/3/13（六）','10:00–12:00','','',0,60,'2027/3/13'],
+  ['SM-0410-LH','說明會','龍華','升小一實體說明會','2027/4/10（六）','14:00–16:00','','',0,60,'2027/4/10'],
+  ['SM-0411-HQ','說明會','總校','升小一實體說明會','2027/4/11（日）','10:00–12:00','','',0,60,'2027/4/11'],
+  ['SM-0508-HQ','說明會','總校','升小一實體說明會','2027/5/8（六）','10:00–12:00','','',0,60,'2027/5/8'],
+  ['SM-0417-ZX','說明會','左新','升小一實體說明會','2027/4/17（六）','10:00–12:00','','',0,60,'2027/4/17'],
+  ['SM-0515-ZX','說明會','左新','升小一實體說明會','2027/5/15（六）','10:00–12:00','','',0,60,'2027/5/15']
+];
+// 示範用的假報名人數，讓「剩餘名額／已額滿」的樣子看得到
+const DEMO_USED = { 'EXP-0113-LH': 16, 'ZY1-LH': 14, 'EXP-0113-HZ': 13, 'SM-1219-LH': 41 };
+
+function demoSessions() {
+  const today = new Date();
+  return DEMO.filter(r => !r[10] || today <= new Date(r[10] + ' 23:59:59')).map(r => ({
+    id: r[0], category: r[1], campus: r[2], title: r[3], date: r[4], time: r[5], teacher: r[6], room: r[7],
+    fee: r[8], capacity: r[9], remaining: r[9] - (DEMO_USED[r[0]] || 0)
+  }));
+}
+
+async function loadSessions() {
+  if (!API_URL) { $('demoBanner').hidden = false; return demoSessions(); }
+  const res = await fetch(API_URL);
+  const data = await res.json();
+  if (!data.ok) throw new Error(data.error || '載入失敗');
+  return data.sessions;
+}
+
+const byId = id => state.sessions.find(s => s.id === id);
+const nt = n => 'NT$' + n.toLocaleString('en-US');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const campusLabel = c => c.split(',').length > 1 ? c.split(',').join('＋') + '合辦' : c;
+
+function renderStatic() {
+  $('schoolName').textContent = SCHOOL_NAME;
+  $('campuses').innerHTML = CAMPUSES.map(c =>
+    `<label class="campus"><input type="radio" name="campus" value="${c}"><span>${c}校</span></label>`).join('');
+  $('sources').innerHTML = SOURCES.map(s => `<label><input type="checkbox" value="${s}"> ${s}</label>`).join('');
+}
+
+function renderGroups() {
+  if (!state.campus) { $('groups').innerHTML = '<div class="empty">請先在上方選擇校區</div>'; return; }
+  const mine = state.sessions.filter(s => s.campus.split(',').includes(state.campus));
+  $('groups').innerHTML = GROUPS.map(g => {
+    const list = mine.filter(s => s.category === g.cat);
+    const body = list.length ? list.map(optHtml).join('') : '<div class="empty">目前沒有開放報名的場次</div>';
+    return `<div class="group">
+      <h3>${g.title}<span class="tag ${g.free ? 'free' : ''}">${g.tag}</span></h3>
+      <p class="desc">${g.desc}</p>
+      <div class="opts">${body}</div></div>`;
+  }).join('');
+}
+
+function optHtml(s) {
+  const p = state.picked[s.id];
+  const isFull = s.remaining <= 0 && !p;
+  const low = s.category === '說明會' ? 10 : 3;
+  const badge = s.remaining <= 0 ? '<span class="badge none">已額滿</span>'
+    : s.remaining <= low ? `<span class="badge low">剩 ${s.remaining} 位</span>` : '<span class="badge">可報名</span>';
+  const isCourse = s.category === '正音' || s.category === '英語';
+  const title = isCourse ? s.title.replace(/^Phonics Players 幼兒英語 /, '') : `${s.date}　${s.time}`;
+  const meta = isCourse
+    ? [s.date, s.time, s.teacher, s.room && `教室 ${s.room}`].filter(Boolean)
+    : [s.campus.includes(',') ? campusLabel(s.campus) : '', s.teacher && `老師 ${s.teacher}`, s.room && `教室 ${s.room}`].filter(Boolean);
+  let extra = '';
+  if (p && s.category === '英語') {
+    extra = `<div class="opt-extra">
+      <label><input type="radio" name="mode-${s.id}" value="正式" ${p.mode !== '試聽' ? 'checked' : ''} data-mode="${s.id}"> 正式報名（${nt(s.fee)}）</label>
+      <label><input type="radio" name="mode-${s.id}" value="試聽" ${p.mode === '試聽' ? 'checked' : ''} data-mode="${s.id}"> 先免費試聽 1 堂</label></div>`;
+  }
+  if (p && s.category === '說明會') {
+    const max = Math.max(1, Math.min(5, s.remaining));
+    extra = `<div class="opt-extra"><label>出席人數（含家長與孩子）
+      <select data-people="${s.id}">${Array.from({ length: max }, (_, i) => `<option ${p.people === i + 1 ? 'selected' : ''}>${i + 1}</option>`).join('')}</select></label></div>`;
+  }
+  return `<div class="opt ${p ? 'on' : ''} ${isFull ? 'full' : ''}">
+    <label class="opt-main"><input type="checkbox" data-pick="${s.id}" ${p ? 'checked' : ''} ${isFull ? 'disabled' : ''}>
+      <div class="opt-body"><div class="opt-title">${esc(title)}</div><div class="opt-meta">${meta.map(esc).join('・')}</div></div>
+      ${badge}</label>${extra}</div>`;
+}
+
+function pickedItems() {
+  return Object.entries(state.picked).map(([id, p]) => ({ s: byId(id), ...p })).filter(i => i.s);
+}
+
+function calcFee(items) {
+  const paid = items.filter(i => (i.s.category === '正音') || (i.s.category === '英語' && i.mode !== '試聽'));
+  const total = paid.reduce((n, i) => n + i.s.fee, 0);
+  const pairs = Math.min(paid.filter(i => i.s.category === '正音').length, paid.filter(i => i.s.category === '英語').length);
+  return { total: total - pairs * COMBO_DISCOUNT, pairs };
+}
+
+function renderSummary() {
+  const items = pickedItems();
+  const order = GROUPS.map(g => g.cat);
+  items.sort((a, b) => order.indexOf(a.s.category) - order.indexOf(b.s.category));
+  $('summary').innerHTML = items.length ? items.map(i => {
+    const name = i.s.category === '體驗' || i.s.category === '說明會' ? `${i.s.title}｜${i.s.date} ${i.s.time}` : i.s.title;
+    const price = i.s.category === '說明會' ? `${i.people} 人・免費`
+      : i.s.category === '英語' && i.mode === '試聽' ? '免費試聽'
+      : i.s.fee ? nt(i.s.fee) : '免費';
+    return `<li><div><div class="cat">${GROUPS.find(g => g.cat === i.s.category).title}</div>${esc(name)}</div><span class="price">${price}</span></li>`;
+  }).join('') : '<li style="color:var(--muted)">尚未勾選任何活動</li>';
+  const { total, pairs } = calcFee(items);
+  $('fee').textContent = nt(total);
+  $('feeNote').textContent = (pairs ? `已折抵正音＋英語合報 ${pairs} 組（每組 ${nt(COMBO_DISCOUNT)}）。` : '') + '實際費用以學務老師確認為準；免費體驗、試聽與說明會不收費。';
+  $('barCount').textContent = items.length;
+  $('barFee').textContent = nt(total);
+  $('bar').classList.toggle('show', items.length > 0 && !$('form').hidden);
+}
+
+function refresh() { renderGroups(); renderSummary(); }
+
+// ─── 互動 ───
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.name === 'campus') {
+    state.campus = t.value;
+    for (const id of Object.keys(state.picked)) if (!byId(id)?.campus.split(',').includes(state.campus)) delete state.picked[id];
+    $('campusField').classList.remove('invalid');
+    refresh();
+  } else if (t.dataset.pick) {
+    const s = byId(t.dataset.pick);
+    if (t.checked) state.picked[s.id] = { mode: s.category === '英語' ? '正式' : undefined, people: s.category === '說明會' ? 1 : undefined };
+    else delete state.picked[s.id];
+    refresh();
+  } else if (t.dataset.mode) {
+    state.picked[t.dataset.mode].mode = t.value; renderSummary();
+  } else if (t.dataset.people) {
+    state.picked[t.dataset.people].people = Number(t.value); renderSummary();
+  } else if (t.name === 'sibling') {
+    $('siblingInfo').hidden = t.value !== '是';
+  }
+});
+document.addEventListener('input', e => e.target.closest('.field')?.classList.remove('invalid'));
+$('toConfirm').onclick = () => $('confirm').scrollIntoView({ behavior: 'smooth' });
+
+function validate() {
+  const checks = [
+    ['parentName', v => v.trim()],
+    ['phone', v => /^09\d{8}$/.test(v.replace(/\D/g, ''))],
+    ['childName', v => v.trim()]
+  ];
+  const msgs = [];
+  let first = null;
+  for (const [id, ok] of checks) {
+    const bad = !ok($(id).value);
+    $(id).closest('.field').classList.toggle('invalid', bad);
+    if (bad) { first ||= $(id); msgs.push($(id).closest('.field').querySelector('.err').textContent); }
+  }
+  if (!state.campus) { $('campusField').classList.add('invalid'); first ||= $('campuses'); msgs.push('請選擇校區'); }
+  if (!pickedItems().length) msgs.push('請至少勾選一個活動');
+  if (!$('consent').checked) msgs.push('請勾選同意個資使用');
+  return { msgs, first };
+}
+
+function showAlert(html) { $('alert').innerHTML = html; $('alert').classList.add('show'); }
+
+$('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  $('alert').classList.remove('show');
+  const { msgs, first } = validate();
+  if (msgs.length) {
+    showAlert('還有幾個地方需要補上：<ul>' + msgs.map(m => `<li>${m}</li>`).join('') + '</ul>');
+    (first || $('alert')).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  const payload = {
+    parentName: $('parentName').value, phone: $('phone').value, lineName: $('lineName').value, email: $('email').value,
+    childName: $('childName').value, kindergarten: $('kindergarten').value, elementary: $('elementary').value,
+    campus: state.campus, sibling: document.querySelector('input[name=sibling]:checked').value === '是',
+    siblingInfo: $('siblingInfo').value, sources: [...document.querySelectorAll('#sources input:checked')].map(i => i.value),
+    note: $('note').value, consent: true, website: $('website').value,
+    items: pickedItems().map(i => ({ id: i.s.id, mode: i.mode, people: i.people }))
+  };
+  $('submit').disabled = true; $('submit').textContent = '送出中…';
+  try {
+    const res = await send(payload);
+    if (res.ok) return showDone(res);
+    if (res.problems) {
+      if (res.sessions) state.sessions = res.sessions;
+      res.problems.forEach(p => { delete state.picked[p.id]; });
+      refresh();
+      showAlert('以下項目無法報名，請調整後再送出：<ul>' +
+        res.problems.map(p => `<li>${esc(p.title || p.id)}：${esc(p.reason)}</li>`).join('') + '</ul>');
+    } else showAlert(esc(res.error || '送出失敗，請稍後再試'));
+  } catch (err) {
+    showAlert('網路連線有問題，請稍後再試，或透過官方 LINE 與我們聯繫。');
+  } finally {
+    $('submit').disabled = false; $('submit').textContent = '送出報名';
+  }
+});
+
+async function send(payload) {
+  if (!API_URL) {
+    await new Promise(r => setTimeout(r, 600));
+    const items = pickedItems();
+    const extra = i => i.s.category === '說明會' ? `（${i.people} 人）` : i.mode === '試聽' ? '（免費試聽 1 堂）' : '';
+    return { ok: true, id: 'DEMO-0001', fee: calcFee(items).total, items: items.map(i => `[${i.s.category}] ${i.s.title}｜${i.s.date}${extra(i)}`) };
+  }
+  // 用 text/plain 送出，瀏覽器才不會先發 CORS 預檢請求（Apps Script 不支援預檢）
+  const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+  return res.json();
+}
+
+function showDone(res) {
+  $('form').hidden = true; $('bar').classList.remove('show');
+  $('done').hidden = false;
+  $('rid').textContent = res.id;
+  $('doneItems').innerHTML = res.items.map(t => `<li>${esc(t)}</li>`).join('');
+  $('doneFee').textContent = res.fee ? `預估費用 ${nt(res.fee)}（以學務確認為準）` : '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+$('again').onclick = async () => {
+  // 保留家長資料，清空孩子與勾選，方便兄弟姊妹一起報名
+  ['childName', 'kindergarten', 'elementary', 'note'].forEach(id => $(id).value = '');
+  state.picked = {};
+  $('done').hidden = true; $('form').hidden = false;
+  try { state.sessions = await loadSessions(); } catch {}
+  refresh();
+  $('childName').scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
+
+(async function init() {
+  renderStatic();
+  $('groups').innerHTML = '<div class="empty">載入場次中…</div>';
+  try {
+    state.sessions = await loadSessions();
+    refresh();
+  } catch (err) {
+    $('groups').innerHTML = '<div class="empty">場次載入失敗，請重新整理頁面，或透過官方 LINE 與我們聯繫。</div>';
+  }
+})();
+</script>
+</body>
+</html>
