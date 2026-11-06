@@ -104,6 +104,10 @@
   .fee-note { color: var(--muted); font-size: 13px; margin: 0 0 16px; }
   .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; background: #f8f7f3; border-radius: 10px; padding: 12px; margin: 14px 0; }
   .consent input { margin-top: 4px; width: 18px; height: 18px; flex: none; }
+  .privacy { font-size: 13px; color: var(--muted); margin: -4px 0 14px; }
+  .privacy summary { cursor: pointer; color: var(--brand); }
+  .privacy ol { margin: 8px 0 0; padding-left: 20px; }
+  .privacy li { margin-bottom: 4px; }
 
   .btn { appearance: none; border: 0; border-radius: 12px; font: inherit; font-weight: 700; padding: 14px 20px; cursor: pointer; }
   .btn-primary { background: var(--accent); color: #fff; width: 100%; font-size: 17px; }
@@ -187,7 +191,8 @@
       <div class="fee"><span>預估費用</span><span id="fee">NT$0</span></div>
       <p class="fee-note" id="feeNote">實際費用以學務老師確認為準；免費體驗、試聽與說明會不收費。</p>
       <div class="field"><label class="lbl" for="note">想告訴我們的事（選填）</label><textarea id="note" rows="3" placeholder="例如：方便聯絡的時段、孩子的英語程度"></textarea></div>
-      <label class="consent"><input type="checkbox" id="consent"><span>我同意學校使用以上資料，聯繫本次課程與活動的報名、繳費及上課相關事宜。</span></label>
+      <label class="consent"><input type="checkbox" id="consent"><span>我已閱讀下方「個人資料蒐集告知事項」，並同意 A Plus 耶加教育機構使用以上資料，聯繫本次課程與活動的報名、繳費及上課相關事宜。</span></label>
+      <details class="privacy"><summary>個人資料蒐集告知事項（點此展開）</summary><ol><li><b>蒐集單位：</b>A Plus 耶加教育機構。</li><li><b>蒐集目的：</b>辦理 2027 升小一課程、免費體驗、幼兒英語與說明會之報名、名額確認、繳費與上課通知等聯繫事宜。</li><li><b>資料類別：</b>家長姓名、手機、LINE 名稱、Email；孩子姓名、目前就讀幼兒園、預計就讀國小；在校兄姊資料（如有填寫）。</li><li><b>利用期間、地區、對象與方式：</b>自報名起至本招生季結束後一年內，於中華民國境內，由本機構招生相關人員以電子方式處理；資料存放於本機構使用之 Google 雲端服務，不提供給其他第三人。</li><li><b>您的權利：</b>您可隨時透過官方 LINE 或至各校區櫃台，請求查詢、閱覽、製給複本、補充或更正、停止蒐集處理利用，或刪除您的個人資料。</li><li><b>不提供的影響：</b>必填欄位未填寫時，將無法完成報名。</li></ol></details>
       <div class="alert" id="alert"></div>
       <button type="submit" class="btn btn-primary" id="submit">送出報名</button>
     </section>
@@ -217,7 +222,7 @@
 <script>
 // ─── 設定：部署 Apps Script 後，把網頁應用程式網址貼在這裡 ───
 const API_URL = 'https://script.google.com/macros/s/AKfycbyI8-lQLM7HBsiC_Hb58B1RkzXm-Cj3VMtHznJfo8qTY1qiA0FBrvyNtP_1zgi76uIC/exec';
-const SCHOOL_NAME = '（學校名稱）';
+const SCHOOL_NAME = 'A Plus 耶加教育機構';
 // ───────────────────────────────────────────────
 
 const COMBO_DISCOUNT = 2000;
