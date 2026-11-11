@@ -134,7 +134,10 @@
   .done { text-align: center; padding: 32px 20px; }
   .done .check { width: 56px; height: 56px; border-radius: 50%; background: #e7f4ec; color: var(--ok); display: grid; place-items: center; font-size: 30px; margin: 0 auto 12px; }
   .done h2 { margin: 0 0 6px; }
-  .done .rid { font-size: 22px; font-weight: 700; color: var(--brand); letter-spacing: .04em; }
+  .done .who { text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; max-width: 420px; margin: 14px auto 4px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+  .done .who dt { color: var(--muted); font-size: 13px; }
+  .done .who dd { margin: 2px 0 0; font-weight: 600; overflow-wrap: anywhere; }
+  .done .line-link { color: #06c755; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
   .done ul { text-align: left; display: inline-block; margin: 14px 0; padding-left: 20px; }
   footer { color: var(--muted); font-size: 13px; text-align: center; padding: 8px 0 24px; }
   [hidden] { display: none !important; }
@@ -146,7 +149,7 @@
   <div class="wrap">
     <div class="school" id="schoolName"></div>
     <h1>2027 升小一｜課程與活動報名</h1>
-    <p>此網頁用於報名2027耶加升小一相關課程，包含體驗課程、幼兒正音、幼兒英語與實體說明會。報名資訊送出後，將由耶加學務老師與您聯繫，確認名額與繳費方式。</p>
+    <p>此網頁用於報名2027耶加升小一相關課程。報名資訊送出後，將由耶加學務老師與您聯繫，確認名額與繳費方式。</p>
   </div>
 </header>
 
@@ -159,7 +162,6 @@
       <div class="grid">
         <div class="field"><label class="lbl" for="parentName">家長姓名<span class="req">*</span></label><input type="text" id="parentName" autocomplete="name"><div class="err">請填寫家長姓名</div></div>
         <div class="field"><label class="lbl" for="phone">手機<span class="req">*</span></label><input type="tel" id="phone" inputmode="numeric" placeholder="0912345678" autocomplete="tel"><div class="err">請填 09 開頭的 10 碼手機</div></div>
-        <div class="field full"><label class="lbl" for="lineName">LINE 名稱</label><input type="text" id="lineName" placeholder="方便我們在官方 LINE 認出您"></div>
         <div class="field"><label class="lbl" for="childName">孩子中文姓名<span class="req">*</span></label><input type="text" id="childName"><div class="err">請填寫孩子中文姓名</div></div>
         <div class="field"><label class="lbl" for="childNameEn">孩子英文姓名<span class="req">*</span></label><input type="text" id="childNameEn" placeholder="例如：Amy Chen" autocapitalize="words"><div class="err">請填寫孩子英文姓名（英文字母）</div></div>
         <div class="field"><label class="lbl" for="kindergarten">目前就讀幼兒園</label><input type="text" id="kindergarten"></div>
@@ -201,7 +203,7 @@
       <p class="fee-note" id="feeNote">實際費用以學務老師確認為準；免費體驗與說明會不收費，英語選擇「先試上」者，決定報名後才收費。</p>
       <div class="field"><label class="lbl" for="note">想告訴我們的事（選填）</label><textarea id="note" rows="3" placeholder="例如：方便聯絡的時段、孩子的英語程度"></textarea></div>
       <label class="consent"><input type="checkbox" id="consent"><span>我已閱讀下方「個人資料蒐集告知事項」，並同意 A Plus 耶加教育機構使用以上資料，聯繫本次課程與活動的報名、繳費及上課相關事宜。</span></label>
-      <details class="privacy"><summary>個人資料蒐集告知事項（點此展開）</summary><ol><li><b>蒐集單位：</b>A Plus 耶加教育機構。</li><li><b>蒐集目的：</b>辦理 2027 升小一課程、免費體驗、幼兒英語與說明會之報名、名額確認、繳費與上課通知等聯繫事宜。</li><li><b>資料類別：</b>家長姓名、手機、LINE 名稱；孩子中文及英文姓名、目前就讀幼兒園、預計就讀國小；在校兄姊資料（如有填寫）。</li><li><b>利用期間、地區、對象與方式：</b>自報名起至本招生季結束後一年內，於中華民國境內，由本機構招生相關人員以電子方式處理；資料存放於本機構使用之 Google 雲端服務，不提供給其他第三人。</li><li><b>您的權利：</b>您可隨時透過官方 LINE 或至各校區櫃台，請求查詢、閱覽、製給複本、補充或更正、停止蒐集處理利用，或刪除您的個人資料。</li><li><b>不提供的影響：</b>必填欄位未填寫時，將無法完成報名。</li></ol></details>
+      <details class="privacy"><summary>個人資料蒐集告知事項（點此展開）</summary><ol><li><b>蒐集單位：</b>A Plus 耶加教育機構。</li><li><b>蒐集目的：</b>辦理 2027 升小一課程、免費體驗、幼兒英語與說明會之報名、名額確認、繳費與上課通知等聯繫事宜。</li><li><b>資料類別：</b>家長姓名、手機；孩子中文及英文姓名、目前就讀幼兒園、預計就讀國小；在校兄姊資料（如有填寫）。</li><li><b>利用期間、地區、對象與方式：</b>自報名起至本招生季結束後一年內，於中華民國境內，由本機構招生相關人員以電子方式處理；資料存放於本機構使用之 Google 雲端服務，不提供給其他第三人。</li><li><b>您的權利：</b>您可隨時透過官方 LINE 或至各校區櫃台，請求查詢、閱覽、製給複本、補充或更正、停止蒐集處理利用，或刪除您的個人資料。</li><li><b>不提供的影響：</b>必填欄位未填寫時，將無法完成報名。</li></ol></details>
       <div class="alert" id="alert"></div>
       <button type="submit" class="btn btn-primary" id="submit">送出報名</button>
     </section>
@@ -210,11 +212,11 @@
   <section class="card done" id="done" hidden>
     <div class="check">✓</div>
     <h2>報名已送出</h2>
-    <p>報名編號</p>
-    <div class="rid" id="rid"></div>
+    <p>請確認以下報名資料是否正確</p>
+    <dl class="who" id="doneWho"></dl>
     <ul id="doneItems"></ul>
     <p id="doneFee"></p>
-    <p>學務老師會在 2 個工作天內與您聯繫，確認名額與繳費方式。<br>如有問題，歡迎透過官方 LINE 詢問。</p>
+    <p>學務老師會在 2 個工作天內與您聯繫，確認名額與繳費方式。<br>如有問題，歡迎透過<a class="line-link" href="https://lin.ee/pSgYHZCq" target="_blank" rel="noopener">耶加官方LINE</a>詢問。</p>
     <button type="button" class="btn btn-ghost" id="again">再幫另一位孩子報名</button>
   </section>
 
@@ -241,7 +243,7 @@ const GROUPS = [
   { cat: '體驗', title: '週間免費正音體驗', tag: '免費', free: true, desc: '每場 1 小時，擇一報名。', single: true },
   { cat: '正音', title: '幼兒正音正式課', tag: '每期 NT$3,500', desc: '每期 7 堂，週六上課，每班上限 16 人，擇一報名。', single: true },
   { cat: '英語', title: 'Phonics Players 幼兒英語', tag: '每期 NT$2,400', single: true, desc: '每期 4 堂，擇一報名。與正音合報，每組折抵 NT$2,000。' },
-  { cat: '說明會', title: '升小一實體說明會', tag: '免費', free: true, desc: '擇一報名，並選擇出席人數。也可以先觀看<a href="https://bmtech.live/f/APlus_Line" target="_blank" rel="noopener">線上說明會 ↗</a>或預約<a href="https://client.beautinq.com/shop/91e62d71-7139-451a-9eca-5c26c1a91c9e/appointment/services" target="_blank" rel="noopener">一對一諮詢 ↗</a>。', single: true }
+  { cat: '說明會', title: '升小一實體說明會', tag: '免費', free: true, desc: '擇一報名，並選擇出席人數。也可以先觀看<a href="https://pse.is/9uz3lt" target="_blank" rel="noopener">線上說明會 ↗</a>或預約<a href="https://client.beautinq.com/shop/91e62d71-7139-451a-9eca-5c26c1a91c9e/appointment/services" target="_blank" rel="noopener">一對一諮詢 ↗</a>。', single: true }
 ];
 
 const CAMPUS_INFO = {
@@ -457,7 +459,7 @@ $('form').addEventListener('submit', async e => {
     return;
   }
   const payload = {
-    parentName: $('parentName').value, phone: $('phone').value, lineName: $('lineName').value,
+    parentName: $('parentName').value, phone: $('phone').value,
     childName: $('childName').value, childNameEn: $('childNameEn').value, kindergarten: $('kindergarten').value, elementary: $('elementary').value,
     campus: state.campus, sibling: document.querySelector('input[name=sibling]:checked').value === '是',
     siblingInfo: $('siblingInfo').value, sources: [...document.querySelectorAll('#sources input:checked')].map(i => i.value),
@@ -467,7 +469,7 @@ $('form').addEventListener('submit', async e => {
   $('submit').disabled = true; $('submit').textContent = '送出中…';
   try {
     const res = await send(payload);
-    if (res.ok) return showDone(res);
+    if (res.ok) return showDone(res, payload);
     if (res.problems) {
       if (res.sessions) state.sessions = res.sessions;
       res.problems.forEach(p => { delete state.picked[p.id]; });
@@ -494,10 +496,14 @@ async function send(payload) {
   return res.json();
 }
 
-function showDone(res) {
+function showDone(res, info) {
   $('form').hidden = true; $('bar').classList.remove('show');
   $('done').hidden = false;
-  $('rid').textContent = res.id;
+  // 不顯示報名編號，改列出家長填寫的資料讓家長二次確認
+  $('doneWho').innerHTML = [
+    ['家長姓名', info.parentName], ['聯絡電話', info.phone],
+    ['孩子中文姓名', info.childName], ['孩子英文姓名', info.childNameEn]
+  ].map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(String(v).trim())}</dd></div>`).join('');
   $('doneItems').innerHTML = res.items.map(t => `<li>${esc(t)}</li>`).join('');
   $('doneFee').textContent = res.fee ? `預估費用 ${nt(res.fee)}（以學務確認為準）` : '';
   window.scrollTo({ top: 0, behavior: 'smooth' });
