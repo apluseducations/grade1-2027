@@ -35,10 +35,16 @@
   }
   .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
 
-  header { background: var(--brand); color: #fff; padding: 32px 0 28px; }
+  header { position: sticky; top: 0; z-index: 20; background: var(--brand); color: #fff; padding: 20px 0 18px; box-shadow: 0 2px 10px rgba(0,0,0,.12); }
   header .school { font-size: 14px; opacity: .85; letter-spacing: .05em; }
-  header h1 { margin: 4px 0 8px; font-size: 26px; line-height: 1.3; }
+  header h1 { margin: 2px 0 6px; font-size: 24px; line-height: 1.3; }
   header p { margin: 0; opacity: .92; font-size: 15px; }
+  @media (max-width: 560px) {
+    header { padding: 12px 0 10px; }
+    header .school { font-size: 12px; }
+    header h1 { font-size: 19px; margin: 0 0 4px; }
+    header p { font-size: 13px; line-height: 1.5; }
+  }
 
   .demo { background: var(--warn-soft); color: #7a4d0b; border: 1px solid #f1d49b; border-radius: 10px; padding: 10px 14px; margin: 16px 0 0; font-size: 14px; }
 
@@ -72,6 +78,7 @@
   .campus span { display: block; text-align: center; padding: 14px 8px; border: 2px solid var(--line); border-radius: 12px; font-weight: 700; font-size: 17px; cursor: pointer; transition: .15s; }
   .campus input:checked + span { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
   .campus input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .campus-note { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
 
   .group { margin-top: 22px; }
   .group:first-child { margin-top: 0; }
@@ -79,6 +86,7 @@
   .group h3 .tag { white-space: nowrap; font-size: 12px; font-weight: 500; padding: 1px 8px; border-radius: 999px; background: var(--brand-soft); color: var(--brand); }
   .group h3 .tag.free { background: #e7f4ec; color: var(--ok); }
   .group .desc { color: var(--muted); font-size: 14px; margin: 2px 0 10px; }
+  .group .desc a { color: var(--brand); font-weight: 500; text-decoration: underline; text-underline-offset: 2px; margin: 0 2px; }
   .opts { display: grid; gap: 8px; }
   .opt { border: 1px solid var(--line); border-radius: 12px; transition: .15s; }
   .opt.on { border-color: var(--brand); background: #f7faff; }
@@ -138,7 +146,7 @@
   <div class="wrap">
     <div class="school" id="schoolName"></div>
     <h1>2027 升小一｜課程與活動報名</h1>
-    <p>填一次資料，就能同時報名幼兒正音、免費體驗、幼兒英語與實體說明會。送出後學務老師會與您聯繫，確認名額與繳費方式。</p>
+    <p>此網頁用於報名2027耶加升小一相關課程，包含體驗課程、幼兒正音、幼兒英語與實體說明會。報名資訊送出後，將由耶加學務老師與您聯繫，確認名額與繳費方式。</p>
   </div>
 </header>
 
@@ -151,11 +159,11 @@
       <div class="grid">
         <div class="field"><label class="lbl" for="parentName">家長姓名<span class="req">*</span></label><input type="text" id="parentName" autocomplete="name"><div class="err">請填寫家長姓名</div></div>
         <div class="field"><label class="lbl" for="phone">手機<span class="req">*</span></label><input type="tel" id="phone" inputmode="numeric" placeholder="0912345678" autocomplete="tel"><div class="err">請填 09 開頭的 10 碼手機</div></div>
-        <div class="field"><label class="lbl" for="lineName">LINE 名稱</label><input type="text" id="lineName" placeholder="方便我們在官方 LINE 認出您"></div>
-        <div class="field"><label class="lbl" for="email">Email</label><input type="email" id="email" autocomplete="email"></div>
-        <div class="field"><label class="lbl" for="childName">孩子姓名<span class="req">*</span></label><input type="text" id="childName"><div class="err">請填寫孩子姓名</div></div>
+        <div class="field full"><label class="lbl" for="lineName">LINE 名稱</label><input type="text" id="lineName" placeholder="方便我們在官方 LINE 認出您"></div>
+        <div class="field"><label class="lbl" for="childName">孩子中文姓名<span class="req">*</span></label><input type="text" id="childName"><div class="err">請填寫孩子中文姓名</div></div>
+        <div class="field"><label class="lbl" for="childNameEn">孩子英文姓名<span class="req">*</span></label><input type="text" id="childNameEn" placeholder="例如：Amy Chen" autocapitalize="words"><div class="err">請填寫孩子英文姓名（英文字母）</div></div>
         <div class="field"><label class="lbl" for="kindergarten">目前就讀幼兒園</label><input type="text" id="kindergarten"></div>
-        <div class="field full"><label class="lbl" for="elementary">預計就讀國小</label><input type="text" id="elementary" placeholder="例如：龍華國小（尚未確定可留空）"></div>
+        <div class="field"><label class="lbl" for="elementary">預計就讀國小</label><input type="text" id="elementary" placeholder="例如：龍華國小（尚未確定可留空）"></div>
         <div class="field full">
           <span class="lbl" style="display:block;font-weight:500">孩子的哥哥姊姊目前是否在本校就讀？</span>
           <div class="inline">
@@ -176,12 +184,13 @@
       <div class="step"><span class="num">2</span><h2>選擇校區</h2></div>
       <p class="hint">選好校區後，下面只會顯示該校區的場次。</p>
       <div class="campuses" id="campuses"></div>
+      <p class="campus-note" id="campusNote" hidden></p>
       <div class="field" id="campusField"><div class="err">請選擇校區</div></div>
     </section>
 
     <section class="card">
       <div class="step"><span class="num">3</span><h2>選擇想參加的活動</h2></div>
-      <p class="hint">可以一次勾選多項，不參加的類別留空即可。</p>
+      <p class="hint">每個類別擇一報名，不參加的類別留空即可。</p>
       <div id="groups"><div class="empty">請先在上方選擇校區</div></div>
     </section>
 
@@ -189,10 +198,10 @@
       <div class="step"><span class="num">4</span><h2>確認並送出</h2></div>
       <ul class="summary" id="summary"></ul>
       <div class="fee"><span>預估費用</span><span id="fee">NT$0</span></div>
-      <p class="fee-note" id="feeNote">實際費用以學務老師確認為準；免費體驗、試聽與說明會不收費。</p>
+      <p class="fee-note" id="feeNote">實際費用以學務老師確認為準；免費體驗與說明會不收費，英語選擇「先試上」者，決定報名後才收費。</p>
       <div class="field"><label class="lbl" for="note">想告訴我們的事（選填）</label><textarea id="note" rows="3" placeholder="例如：方便聯絡的時段、孩子的英語程度"></textarea></div>
       <label class="consent"><input type="checkbox" id="consent"><span>我已閱讀下方「個人資料蒐集告知事項」，並同意 A Plus 耶加教育機構使用以上資料，聯繫本次課程與活動的報名、繳費及上課相關事宜。</span></label>
-      <details class="privacy"><summary>個人資料蒐集告知事項（點此展開）</summary><ol><li><b>蒐集單位：</b>A Plus 耶加教育機構。</li><li><b>蒐集目的：</b>辦理 2027 升小一課程、免費體驗、幼兒英語與說明會之報名、名額確認、繳費與上課通知等聯繫事宜。</li><li><b>資料類別：</b>家長姓名、手機、LINE 名稱、Email；孩子姓名、目前就讀幼兒園、預計就讀國小；在校兄姊資料（如有填寫）。</li><li><b>利用期間、地區、對象與方式：</b>自報名起至本招生季結束後一年內，於中華民國境內，由本機構招生相關人員以電子方式處理；資料存放於本機構使用之 Google 雲端服務，不提供給其他第三人。</li><li><b>您的權利：</b>您可隨時透過官方 LINE 或至各校區櫃台，請求查詢、閱覽、製給複本、補充或更正、停止蒐集處理利用，或刪除您的個人資料。</li><li><b>不提供的影響：</b>必填欄位未填寫時，將無法完成報名。</li></ol></details>
+      <details class="privacy"><summary>個人資料蒐集告知事項（點此展開）</summary><ol><li><b>蒐集單位：</b>A Plus 耶加教育機構。</li><li><b>蒐集目的：</b>辦理 2027 升小一課程、免費體驗、幼兒英語與說明會之報名、名額確認、繳費與上課通知等聯繫事宜。</li><li><b>資料類別：</b>家長姓名、手機、LINE 名稱；孩子中文及英文姓名、目前就讀幼兒園、預計就讀國小；在校兄姊資料（如有填寫）。</li><li><b>利用期間、地區、對象與方式：</b>自報名起至本招生季結束後一年內，於中華民國境內，由本機構招生相關人員以電子方式處理；資料存放於本機構使用之 Google 雲端服務，不提供給其他第三人。</li><li><b>您的權利：</b>您可隨時透過官方 LINE 或至各校區櫃台，請求查詢、閱覽、製給複本、補充或更正、停止蒐集處理利用，或刪除您的個人資料。</li><li><b>不提供的影響：</b>必填欄位未填寫時，將無法完成報名。</li></ol></details>
       <div class="alert" id="alert"></div>
       <button type="submit" class="btn btn-primary" id="submit">送出報名</button>
     </section>
@@ -227,13 +236,20 @@ const SCHOOL_NAME = 'A Plus 耶加教育機構';
 
 const COMBO_DISCOUNT = 2000;
 const CAMPUSES = ['龍華', '總校', '左新'];
-const SOURCES = ['紙本 DM', '校慶活動', '短影音／社群', '官方 LINE', '親友介紹', '哥哥姊姊在本校', '其他'];
+const SOURCES = ['紙本 DM', '校慶活動', '短影音／社群', '官方 LINE', '官方網站', '親友介紹', '哥哥姊姊在本校', '其他'];
 const GROUPS = [
-  { cat: '體驗', title: '週間免費正音體驗', tag: '免費', free: true, desc: '每場 1 小時，可複選多場。' },
-  { cat: '正音', title: '幼兒正音正式課', tag: '每期 NT$3,500', desc: '每期 7 堂，週六上課，每班上限 16 人。' },
-  { cat: '英語', title: 'Phonics Players 幼兒英語', tag: '每期 NT$2,400', desc: '每期 4 堂。可正式報名，或先免費試聽 1 堂（試聽堂次由學務聯繫安排）。與正音合報，每組折抵 NT$2,000。' },
-  { cat: '說明會', title: '升小一實體說明會', tag: '免費', free: true, desc: '請選擇出席人數。也可以先觀看線上說明會或預約一對一諮詢。' }
+  { cat: '體驗', title: '週間免費正音體驗', tag: '免費', free: true, desc: '每場 1 小時，擇一報名。', single: true },
+  { cat: '正音', title: '幼兒正音正式課', tag: '每期 NT$3,500', desc: '每期 7 堂，週六上課，每班上限 16 人，擇一報名。', single: true },
+  { cat: '英語', title: 'Phonics Players 幼兒英語', tag: '每期 NT$2,400', single: true, desc: '每期 4 堂，擇一報名。與正音合報，每組折抵 NT$2,000。' },
+  { cat: '說明會', title: '升小一實體說明會', tag: '免費', free: true, desc: '擇一報名，並選擇出席人數。也可以先觀看<a href="https://bmtech.live/f/APlus_Line" target="_blank" rel="noopener">線上說明會 ↗</a>或預約<a href="https://client.beautinq.com/shop/91e62d71-7139-451a-9eca-5c26c1a91c9e/appointment/services" target="_blank" rel="noopener">一對一諮詢 ↗</a>。', single: true }
 ];
+
+const CAMPUS_INFO = {
+  '龍華': '校區地址：高雄市鼓山區富農路96號 / 服務範圍：龍華國小、中山國小、新上國小',
+  '總校': '校區地址：高雄市左營區文府路488號 / 服務範圍：文府國小、福山國小',
+  '左新': '校區地址：高雄市左營區曾子路290號 / 服務範圍：新光國小、新民國小'
+};
+const campusText = c => c === '總校' ? c : c + '校';
 
 const $ = id => document.getElementById(id);
 const state = { sessions: [], campus: '', picked: {} }; // picked[id] = { mode, people }
@@ -257,18 +273,18 @@ const DEMO = [
   ['ZY1-HZ','正音','總校,左新','幼兒正音 第一期（7 堂，總校＋左新合班）','1/16、2/13、2/20、3/6、3/13、3/20、3/27（週六）','10:30–12:00','Helen','暫定總校',3500,16,'2027/1/16'],
   ['ZY2-LH','正音','龍華','幼兒正音 第二期（7 堂）','4/17、4/24、5/8、5/15、5/22、5/29、6/5（週六）','10:30–12:00','Erma','待定',3500,16,'2027/4/17'],
   ['ZY2-HZ','正音','總校,左新','幼兒正音 第二期（7 堂，總校＋左新合班）','4/17、4/24、5/8、5/15、5/22、5/29、6/5（週六）','10:30–12:00','Helen','暫定總校',3500,16,'2027/4/17'],
-  ['EN1-HQ','英語','總校','Phonics Players 幼兒英語 第 1 期（4 堂）','2027 年 2 月起・日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
-  ['EN2-HQ','英語','總校','Phonics Players 幼兒英語 第 2 期（4 堂）','日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
-  ['EN3-HQ','英語','總校','Phonics Players 幼兒英語 第 3 期（4 堂）','日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
-  ['EN4-HQ','英語','總校','Phonics Players 幼兒英語 第 4 期（4 堂）','日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
-  ['EN1-LH','英語','龍華','Phonics Players 幼兒英語 第 1 期（4 堂）','2027 年 2 月起・日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
-  ['EN2-LH','英語','龍華','Phonics Players 幼兒英語 第 2 期（4 堂）','日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
-  ['EN3-LH','英語','龍華','Phonics Players 幼兒英語 第 3 期（4 堂）','日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
-  ['EN4-LH','英語','龍華','Phonics Players 幼兒英語 第 4 期（4 堂）','日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
-  ['EN1-ZX','英語','左新','Phonics Players 幼兒英語 第 1 期（4 堂）','2027 年 2 月起・日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
-  ['EN2-ZX','英語','左新','Phonics Players 幼兒英語 第 2 期（4 堂）','日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
-  ['EN3-ZX','英語','左新','Phonics Players 幼兒英語 第 3 期（4 堂）','日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
-  ['EN4-ZX','英語','左新','Phonics Players 幼兒英語 第 4 期（4 堂）','日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
+  ['EN1-HQ','英語','總校','Phonics Players 幼兒英語 第一期（4堂）','2027 年 2 月起・日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
+  ['EN2-HQ','英語','總校','Phonics Players 幼兒英語 第二期（4堂）','日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
+  ['EN3-HQ','英語','總校','Phonics Players 幼兒英語 第三期（4堂）','日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
+  ['EN4-HQ','英語','總校','Phonics Players 幼兒英語 第四期（4堂）','日期待公告','每週一 18:00–19:00','Melody（Austin 代課）','1F ECC',2400,8,''],
+  ['EN1-LH','英語','龍華','Phonics Players 幼兒英語 第一期（4堂）','2027 年 2 月起・日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
+  ['EN2-LH','英語','龍華','Phonics Players 幼兒英語 第二期（4堂）','日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
+  ['EN3-LH','英語','龍華','Phonics Players 幼兒英語 第三期（4堂）','日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
+  ['EN4-LH','英語','龍華','Phonics Players 幼兒英語 第四期（4堂）','日期待公告','每週二 18:00–19:00','Abigail','1A',2400,8,''],
+  ['EN1-ZX','英語','左新','Phonics Players 幼兒英語 第一期（4堂）','2027 年 2 月起・日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
+  ['EN2-ZX','英語','左新','Phonics Players 幼兒英語 第二期（4堂）','日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
+  ['EN3-ZX','英語','左新','Phonics Players 幼兒英語 第三期（4堂）','日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
+  ['EN4-ZX','英語','左新','Phonics Players 幼兒英語 第四期（4堂）','日期待公告','每週三 18:00–19:00','Cynthia L.','2-D',2400,8,''],
   ['SM-1219-LH','說明會','龍華','升小一實體說明會','2026/12/19（六）','10:00–12:00','','',0,60,'2026/12/19'],
   ['SM-0313-LH','說明會','龍華','升小一實體說明會','2027/3/13（六）','10:00–12:00','','',0,60,'2027/3/13'],
   ['SM-0410-LH','說明會','龍華','升小一實體說明會','2027/4/10（六）','14:00–16:00','','',0,60,'2027/4/10'],
@@ -304,7 +320,7 @@ const campusLabel = c => c.split(',').length > 1 ? c.split(',').join('＋') + '�
 function renderStatic() {
   $('schoolName').textContent = SCHOOL_NAME;
   $('campuses').innerHTML = CAMPUSES.map(c =>
-    `<label class="campus"><input type="radio" name="campus" value="${c}"><span>${c}校</span></label>`).join('');
+    `<label class="campus"><input type="radio" name="campus" value="${c}"><span>${campusText(c)}</span></label>`).join('');
   $('sources').innerHTML = SOURCES.map(s => `<label><input type="checkbox" value="${s}"> ${s}</label>`).join('');
 }
 
@@ -328,15 +344,14 @@ function optHtml(s) {
   const badge = s.remaining <= 0 ? '<span class="badge none">已額滿</span>'
     : s.remaining <= low ? `<span class="badge low">剩 ${s.remaining} 位</span>` : '<span class="badge">可報名</span>';
   const isCourse = s.category === '正音' || s.category === '英語';
-  const title = isCourse ? s.title.replace(/^Phonics Players 幼兒英語 /, '') : `${s.date}　${s.time}`;
-  const meta = isCourse
-    ? [s.date, s.time, s.teacher, s.room && `教室 ${s.room}`].filter(Boolean)
-    : [s.campus.includes(',') ? campusLabel(s.campus) : '', s.teacher && `老師 ${s.teacher}`, s.room && `教室 ${s.room}`].filter(Boolean);
+  // 只顯示日期與時間（不顯示老師、教室）；合辦場次保留「總校＋左新合辦」
+  const title = isCourse ? s.title.replace(/^(Phonics Players 幼兒英語|幼兒正音)\s*/, '') : `${s.date}　${s.time}`;
+  const meta = isCourse ? [s.date, s.time].filter(Boolean) : [s.campus.includes(',') ? campusLabel(s.campus) : ''].filter(Boolean);
   let extra = '';
   if (p && s.category === '英語') {
     extra = `<div class="opt-extra">
-      <label><input type="radio" name="mode-${s.id}" value="正式" ${p.mode !== '試聽' ? 'checked' : ''} data-mode="${s.id}"> 正式報名（${nt(s.fee)}）</label>
-      <label><input type="radio" name="mode-${s.id}" value="試聽" ${p.mode === '試聽' ? 'checked' : ''} data-mode="${s.id}"> 先免費試聽 1 堂</label></div>`;
+      <label><input type="radio" name="mode-${s.id}" value="正式" ${p.mode !== '試聽' ? 'checked' : ''} data-mode="${s.id}"> 直接報名（${nt(s.fee)}，4 堂）</label>
+      <label><input type="radio" name="mode-${s.id}" value="試聽" ${p.mode === '試聽' ? 'checked' : ''} data-mode="${s.id}"> 先試上1堂再決定（暫不收費）</label></div>`;
   }
   if (p && s.category === '說明會') {
     const max = Math.max(1, Math.min(5, s.remaining));
@@ -367,13 +382,13 @@ function renderSummary() {
   $('summary').innerHTML = items.length ? items.map(i => {
     const name = i.s.category === '體驗' || i.s.category === '說明會' ? `${i.s.title}｜${i.s.date} ${i.s.time}` : i.s.title;
     const price = i.s.category === '說明會' ? `${i.people} 人・免費`
-      : i.s.category === '英語' && i.mode === '試聽' ? '免費試聽'
+      : i.s.category === '英語' && i.mode === '試聽' ? '先試上・決定後收費'
       : i.s.fee ? nt(i.s.fee) : '免費';
     return `<li><div><div class="cat">${GROUPS.find(g => g.cat === i.s.category).title}</div>${esc(name)}</div><span class="price">${price}</span></li>`;
   }).join('') : '<li style="color:var(--muted)">尚未勾選任何活動</li>';
   const { total, pairs } = calcFee(items);
   $('fee').textContent = nt(total);
-  $('feeNote').textContent = (pairs ? `已折抵正音＋英語合報 ${pairs} 組（每組 ${nt(COMBO_DISCOUNT)}）。` : '') + '實際費用以學務老師確認為準；免費體驗、試聽與說明會不收費。';
+  $('feeNote').textContent = (pairs ? `已折抵正音＋英語合報 ${pairs} 組（每組 ${nt(COMBO_DISCOUNT)}）。` : '') + '實際費用以學務老師確認為準；免費體驗與說明會不收費，英語選擇「先試上」者，決定報名後才收費。';
   $('barCount').textContent = items.length;
   $('barFee').textContent = nt(total);
   $('bar').classList.toggle('show', items.length > 0 && !$('form').hidden);
@@ -388,9 +403,14 @@ document.addEventListener('change', e => {
     state.campus = t.value;
     for (const id of Object.keys(state.picked)) if (!byId(id)?.campus.split(',').includes(state.campus)) delete state.picked[id];
     $('campusField').classList.remove('invalid');
+    $('campusNote').textContent = CAMPUS_INFO[state.campus] || '';
+    $('campusNote').hidden = !CAMPUS_INFO[state.campus];
     refresh();
   } else if (t.dataset.pick) {
     const s = byId(t.dataset.pick);
+    // 每個類別擇一報名：勾新的就取消同類別原本的勾選
+    if (t.checked && GROUPS.find(g => g.cat === s.category)?.single)
+      for (const id of Object.keys(state.picked)) if (byId(id)?.category === s.category) delete state.picked[id];
     if (t.checked) state.picked[s.id] = { mode: s.category === '英語' ? '正式' : undefined, people: s.category === '說明會' ? 1 : undefined };
     else delete state.picked[s.id];
     refresh();
@@ -409,7 +429,8 @@ function validate() {
   const checks = [
     ['parentName', v => v.trim()],
     ['phone', v => /^09\d{8}$/.test(v.replace(/\D/g, ''))],
-    ['childName', v => v.trim()]
+    ['childName', v => v.trim()],
+    ['childNameEn', v => /[A-Za-z]/.test(v)]
   ];
   const msgs = [];
   let first = null;
@@ -436,8 +457,8 @@ $('form').addEventListener('submit', async e => {
     return;
   }
   const payload = {
-    parentName: $('parentName').value, phone: $('phone').value, lineName: $('lineName').value, email: $('email').value,
-    childName: $('childName').value, kindergarten: $('kindergarten').value, elementary: $('elementary').value,
+    parentName: $('parentName').value, phone: $('phone').value, lineName: $('lineName').value,
+    childName: $('childName').value, childNameEn: $('childNameEn').value, kindergarten: $('kindergarten').value, elementary: $('elementary').value,
     campus: state.campus, sibling: document.querySelector('input[name=sibling]:checked').value === '是',
     siblingInfo: $('siblingInfo').value, sources: [...document.querySelectorAll('#sources input:checked')].map(i => i.value),
     note: $('note').value, consent: true, website: $('website').value,
@@ -465,7 +486,7 @@ async function send(payload) {
   if (!API_URL) {
     await new Promise(r => setTimeout(r, 600));
     const items = pickedItems();
-    const extra = i => i.s.category === '說明會' ? `（${i.people} 人）` : i.mode === '試聽' ? '（免費試聽 1 堂）' : '';
+    const extra = i => i.s.category === '說明會' ? `（${i.people} 人）` : i.mode === '試聽' ? '（先試上第 1 堂）' : '';
     return { ok: true, id: 'DEMO-0001', fee: calcFee(items).total, items: items.map(i => `[${i.s.category}] ${i.s.title}｜${i.s.date}${extra(i)}`) };
   }
   // 用 text/plain 送出，瀏覽器才不會先發 CORS 預檢請求（Apps Script 不支援預檢）
@@ -484,7 +505,7 @@ function showDone(res) {
 
 $('again').onclick = async () => {
   // 保留家長資料，清空孩子與勾選，方便兄弟姊妹一起報名
-  ['childName', 'kindergarten', 'elementary', 'note'].forEach(id => $(id).value = '');
+  ['childName', 'childNameEn', 'kindergarten', 'elementary', 'note'].forEach(id => $(id).value = '');
   state.picked = {};
   $('done').hidden = true; $('form').hidden = false;
   try { state.sessions = await loadSessions(); } catch {}
@@ -492,8 +513,13 @@ $('again').onclick = async () => {
   $('childName').scrollIntoView({ behavior: 'smooth', block: 'center' });
 };
 
+// 上方標題列固定不動：捲動定位時預留標題列高度，避免欄位被蓋住
+function fitHeader() { document.documentElement.style.scrollPaddingTop = (document.querySelector('header').offsetHeight + 12) + 'px'; }
+window.addEventListener('resize', fitHeader);
+
 (async function init() {
   renderStatic();
+  fitHeader();
   $('groups').innerHTML = '<div class="empty">載入場次中…</div>';
   try {
     state.sessions = await loadSessions();
