@@ -6,6 +6,12 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>2027 升小一｜課程與活動報名</title>
+<meta name="description" content="此網頁用於報名2027耶加升小一相關課程。報名資訊送出後，將由耶加學務老師與您聯繫，確認名額與繳費方式。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="2027 升小一｜課程與活動報名">
+<meta property="og:description" content="此網頁用於報名2027耶加升小一相關課程。報名資訊送出後，將由耶加學務老師與您聯繫，確認名額與繳費方式。">
+<meta property="og:url" content="https://apluseducations.github.io/grade1-2027/">
+<meta property="og:image" content="https://apluseducations.github.io/grade1-2027/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -154,7 +160,7 @@
 </header>
 
 <main class="wrap">
-  <div class="demo" id="demoBanner" hidden>示範模式：尚未連接 Apps Script，場次與名額是範例資料，送出不會存檔。</div>
+  <div class="demo" id="demoBanner" hidden></div>
 
   <form id="form" novalidate>
     <section class="card">
@@ -307,7 +313,7 @@ function demoSessions() {
 }
 
 async function loadSessions() {
-  if (!API_URL) { $('demoBanner').hidden = false; return demoSessions(); }
+  if (!API_URL) { $('demoBanner').textContent = '示範模式：尚未連接 Apps Script，場次與名額是範例資料，送出不會存檔。'; $('demoBanner').hidden = false; return demoSessions(); }
   const res = await fetch(API_URL);
   const data = await res.json();
   if (!data.ok) throw new Error(data.error || '載入失敗');
